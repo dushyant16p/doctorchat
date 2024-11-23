@@ -1,0 +1,188 @@
+/* styles.css */
+
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #2b2d42; /* Dark blue background */
+    color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+/* Section Styling */
+.section {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    background-color: #2f3b52; /* Darker background for content */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    display: none;
+    transition: transform 0.3s ease-in-out;
+}
+
+.section.active {
+    display: block;
+    transform: translateY(0);
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    color: #ddd;
+}
+
+input, select, textarea, button {
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #555;
+    background-color: #1e2630;
+    color: #f4f4f4;
+    outline: none;
+    transition: border 0.3s ease-in-out;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #6c63ff; /* Purple accent on focus */
+}
+
+/* Chat Interface */
+#chat-window {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 300px;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: #1e2630;
+    border: 1px solid #555;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.message {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.message.bot {
+    background-color: #444;
+    align-self: flex-start;
+}
+
+.message.user {
+    background-color: #6c63ff;
+    color: white;
+    align-self: flex-end;
+}
+
+#chat-input {
+    width: 80%;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #555;
+    background-color: #1e2630;
+    color: #f4f4f4;
+    margin-right: 10px;
+}
+
+button {
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #6c63ff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #5e54e1;
+}
+
+/* Summary Section */
+#summary-section {
+    padding: 30px;
+    background-color: #2f3b52;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+#summary-details p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+}
+
+#summary-prescription {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #00d1b2; /* Prescription color */
+}
+
+/* Restart Button */
+#restart {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#restart:hover {
+    background-color: #d32f2f;
+}
+
+@media (max-width: 600px) {
+    .section {
+        width: 100%;
+        padding: 20px;
+    }
+
+    #chat-input {
+        width: calc(100% - 80px);
+    }
+
+    button {
+        width: 50px;
+    }
+}
+
+/* Add this to styles.css */
+
+.message.typing {
+    background-color: transparent;
+    color: #f4f4f4;
+    text-align: left;
+    font-style: italic;
+}
+
+.message.typing i {
+    animation: typing 1.5s infinite steps(5, end);
+}
+
+@keyframes typing {
+    0% { content: "..." }
+    50% { content: ".." }
+    100% { content: "..." }
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Receipt System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="form-section" class="section active">
+        <h1>Patient Information</h1>
+        <form id="patient-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="father-name">Father's Name:</label>
+            <input type="text" id="father-name" name="father-name" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="" disabled selected>Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+
+            <label for="mobile">Mobile Number:</label>
+            <input type="text" id="mobile" name="mobile" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" required></textarea>
+
+            <button type="button" id="start-chat">Start Chat</button>
+        </form>
+    </div>
+    
+
+    <div id="chat-section" class="section">
+        <h1>Chat with Doctor</h1>
+        <div id="chat-window">
+            <div id="messages"></div>
+        </div>
+        <div style="display: flex; margin-top: 10px;">
+            <input type="text" id="chat-input" placeholder="Type your message...">
+            <button id="send-message">Send</button>
+        </div>
+    </div>
+
+    <div id="summary-section" class="section">
+        <h1>Summary</h1>
+        <div id="summary-details">
+            <p id="summary-patient-details"></p>
+            <p id="summary-prescription"></p>
+        </div>
+        <button id="restart">Restart</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

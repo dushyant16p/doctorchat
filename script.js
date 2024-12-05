@@ -49,7 +49,7 @@ sendMessageButton.addEventListener('click', () => {
     if (!userMessage) return;
 
     addMessage(userMessage, "user");
-    chatInput.value = '';
+    chatInput.value = ''; // Clear chat input after sending message
 
     // Fetch bot response from OpenAI
     setTimeout(() => {
@@ -109,4 +109,5 @@ restartButton.addEventListener('click', () => {
     formSection.classList.add('active');
     chatSection.classList.remove('active');
     summarySection.classList.remove('active');
+    addMessage("Hello, how may I help you?", "bot"); // Greet user on restart
 });

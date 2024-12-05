@@ -5,8 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital Receipt System</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #summary-details {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
+
     <div id="form-section" class="section active">
         <h1>Patient Information</h1>
         <form id="patient-form">
@@ -35,7 +62,6 @@
             <button type="button" id="start-chat">Start Chat</button>
         </form>
     </div>
-    
 
     <div id="chat-section" class="section">
         <h1>Chat with Doctor</h1>
@@ -54,6 +80,7 @@
             <p id="summary-patient-details"></p>
             <p id="summary-prescription"></p>
         </div>
+        <!-- <button id="download-report">Download Report</button> -->
         <button id="restart">Restart</button>
     </div>
 

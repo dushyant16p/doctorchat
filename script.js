@@ -11,17 +11,19 @@ const sendMessageButton = document.getElementById('send-message');
 const summaryPatientDetails = document.getElementById('summary-patient-details');
 const summaryPrescription = document.getElementById('summary-prescription');
 const restartButton = document.getElementById('restart');
+const downloadButton = document.createElement('button');  // New Download Button
 
 let patientDetails = {};
 let currentQuestion = 0;
 let symptoms = "";  // Store user's symptoms for use in prescription
+let additionalSymptoms = ""; // Store additional symptoms
 let userAllergies = "";  // Store user's allergies
 
 // Chatbot flow (Improved questions based on symptoms)
 const questions = [
     "What symptoms are you experiencing?",
     "How long have you had these symptoms?",
-    "Do you have any allergies to medications?",
+    "Do you have any further symptoms?",
     "Do you have any further questions?"
 ];
 
@@ -46,7 +48,6 @@ startChatButton.addEventListener('click', () => {
     chatSection.classList.add('active');
     addMessage("Hello, how may I help you?", "bot"); // Start with the greeting
 });
-
 
 // Handle sending messages
 sendMessageButton.addEventListener('click', () => {
@@ -82,28 +83,28 @@ function botResponse(userMessage) {
             return;
         }
         symptoms = normalizedMessage;  // Store the user's symptoms
-        addMessage("I see, that sounds concerning. How long have you had these symptoms?", "bot");
+        addMessage("I see, how long have you had these symptoms?", "bot");
         currentQuestion++;
     } else if (currentQuestion === 1) {
         if (!normalizedMessage || !isValidDuration(normalizedMessage)) {
             addMessage("Please provide a valid duration (e.g., '2 days', '1 week').", "bot");
             return;
         }
-        addMessage("Got it! Have you experienced any other symptoms along with these?", "bot");
+        addMessage("Got it! Do you have any further symptoms?", "bot");
         currentQuestion++;
     } else if (currentQuestion === 2) {
         if (normalizedMessage.toLowerCase().includes('no') || normalizedMessage.toLowerCase().includes('none')) {
-            addMessage("Thank you for the information. Do you have any allergies to medications?", "bot");
+            addMessage("Okay, do you have any further questions?", "bot");
         } else {
-            userAllergies = normalizedMessage;  // Store allergies information
+            additionalSymptoms = normalizedMessage;  // Store additional symptoms
             addMessage("Got it. Do you have any further questions?", "bot");
         }
         currentQuestion++;
     } else if (currentQuestion === 3) {
-        addMessage("Okay, thank you for the details would you like to see your medical report?.", "bot");
+        addMessage("Thank you for providing the information. Would you like to see your medical report?", "bot");
         currentQuestion++;
     } else {
-        addMessage("I hope I was able to help. this is your report", "bot");
+        addMessage("I hope I was able to help. Here is your report:", "bot");
         const showReportButton = document.createElement('button');
         showReportButton.textContent = "Show Report";
         showReportButton.addEventListener('click', showSummary);
@@ -130,7 +131,7 @@ function generatePrescription(symptoms) {
 
     if (symptoms.toLowerCase().includes("fever")) {
         medication = "Paracetamol 500mg every 6 hours for 3 days";
-        advice = "Make sure to stay hydrated, rest well, and avoid cold drinks or spicy foods.";
+        advice = "Make sure to stay hydrated, rest well, and avoid cold drinks or spicy foods.\nAllow your body to recover by getting adequate rest and sleep.\nKeep track of your temperature using a thermometer to check if the fever persists or rises significantly.\nUse a damp cloth on your forehead to help reduce your body temperature.";
     } else if (symptoms.toLowerCase().includes("headache")) {
         medication = "Ibuprofen 400mg twice a day for 3 days";
         advice = "Rest in a quiet, dark room. Drink plenty of water and avoid stress.";
@@ -160,22 +161,84 @@ function showSummary() {
         <strong>Mobile:</strong> ${patientDetails.mobile}<br>
         <strong>Address:</strong> ${patientDetails.address}
     `;
-
-
     summaryPrescription.innerHTML = `
         <strong>Prescription:</strong> ${medication}<br>
         <strong>Advice:</strong> ${advice}
     `;
 
+    // Add Download Button
+    downloadButton.textContent = "Download Report";
+    downloadButton.addEventListener('click', downloadReport);
+    summarySection.appendChild(downloadButton);
+
     chatSection.classList.remove('active');
     summarySection.classList.add('active');
 }
+
+// Download the medical report
+// Download the medical report in PDF format
+function downloadReport() {
+    const { medication, advice } = generatePrescription(symptoms);
+
+    // Create a new PDF document
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const id=564;
+
+    // Add Title
+    doc.setFontSize(20);
+    doc.setTextColor(0, 0, 255); // Blue color for the title
+    doc.text('MEDICAL REPORT', 105, 20, { align: 'center' });
+
+    // Add Patient Details Section
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0); // Black color for text
+    doc.text('Patient Details:', 10, 30);
+    doc.setFontSize(12);
+    doc.text(`ID: ${id}`, 10, 35);
+    doc.text(`Name: ${patientDetails.name}`, 10, 40);
+    doc.text(`Father's Name: ${patientDetails.fatherName}`, 10, 45);
+    doc.text(`Age: ${patientDetails.age}`, 10, 50);
+    doc.text(`Gender: ${patientDetails.gender}`, 10, 55);
+    doc.text(`Mobile: ${patientDetails.mobile}`, 10, 60);
+    doc.text(`Address: ${patientDetails.address}`, 10, 65);
+
+    // Add Symptoms Section
+    doc.setFontSize(14);
+    doc.text('Symptoms:', 10, 80);
+    doc.setFontSize(12);
+    doc.text(`Primary Symptoms: ${symptoms}`, 10, 90);
+    doc.text(`Additional Symptoms: ${additionalSymptoms || "None"}`, 10, 95);
+
+    // Add Prescription Section
+    doc.setFontSize(14);
+    doc.text('Prescription:', 10, 110);
+    doc.setFontSize(12);
+    doc.text(`Medication: ${medication}`, 10, 120);
+
+    // Add Medical Advice Section
+    doc.setFontSize(14);
+    doc.text('Medical Advice:', 10, 135);
+    doc.setFontSize(12);
+    doc.text(advice, 10, 145);
+
+    // Add Footer
+    doc.setFontSize(10);
+    doc.setTextColor(150);
+    doc.text('Thank you for using DoctorChat!', 10, doc.internal.pageSize.height - 10);
+
+    // Save the generated PDF
+    doc.save('MedicalReport.pdf');
+}
+
+    
 
 // Restart the process
 restartButton.addEventListener('click', () => {
     currentQuestion = 0;
     patientDetails = {};
     symptoms = "";
+    additionalSymptoms = "";
     userAllergies = "";
     messages.innerHTML = '';
     formSection.classList.add('active');

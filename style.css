@@ -155,6 +155,24 @@ button:hover {
     background-color: #d32f2f;
 }
 
+/* Download Report Button */
+#download-report {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: #4CAF50; /* Green background for download button */
+    color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    text-align: center;
+}
+
+#download-report:hover {
+    background-color: #45a049;
+}
+
 /* Mobile Adjustments */
 @media (max-width: 768px) {
     body {

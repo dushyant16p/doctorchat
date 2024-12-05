@@ -18,7 +18,7 @@ let symptoms = ""; // Store user's symptoms for use in prescription
 let userAllergies = ""; // Store user's allergies
 
 // OpenAI API Configuration
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "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";
 const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
 
 // Form submission logic
